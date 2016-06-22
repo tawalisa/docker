@@ -1,0 +1,29 @@
+FROM ubuntu:14.04
+
+MAINTAINER lijia
+
+ENV http_proxy=http://web-proxy.sgp.hp.com:8080
+ENV https_proxy=http://web-proxy.sgp.hp.com:8080
+RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe"> /etc/apt/sources.list
+RUN apt-get update
+
+# Install curl
+RUN apt-get -y install curl
+
+
+RUN apt-get -y install nginx
+
+#RUN apt-get install -y nginx && rm -rf /var/lib/apt/lists/* && echo "\ndaemon off;" >> /etc/nginx/nginx.conf && chown -R www-data:www-data /var/lib/nginx
+RUN echo "Asia/Shanghai" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+
+ADD run.sh /run.sh
+RUN chmod 755 /*.sh
+
+#VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx"]
+
+WORKDIR /etc/nginx
+
+CMD ["/run.sh"]
+
+EXPOSE 80
+EXPOSE 443
