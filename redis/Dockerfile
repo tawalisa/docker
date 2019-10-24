@@ -49,3 +49,4 @@ CMD ["redis-server", "/etc/redis/redis.conf"]
 
 # Expose ports.
 EXPOSE 6379
+
